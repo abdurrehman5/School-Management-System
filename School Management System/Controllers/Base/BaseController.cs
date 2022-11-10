@@ -18,39 +18,80 @@ namespace School_Management_System.Controllers.Base
 
         // POST: BaseController/Create
         [HttpPost]
-        public  async Task<IActionResult> Create(T entity)
+        public  IActionResult Create(T entity)
         {
-            return new JsonResult(await _baseService.Add(entity));
+            return new JsonResult( _baseService.Add(entity));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Edit(T entity)
+        public IActionResult Edit(T entity)
         {
-            return new JsonResult(await _baseService.Update(entity));
+            return new JsonResult( _baseService.Update(entity));
         }
 
         // GET: BaseController/Edit/5
-        public async Task<IActionResult> Get(int id)
+        [HttpGet]
+        public IActionResult Get(int id)
         {
-            return new JsonResult(await _baseService.Get(id));
+            return new JsonResult( _baseService.Get(id));
         }
 
-        public async Task<IActionResult> Get(Expression<Func<T, bool>> expression)
+        [HttpGet]
+        public IActionResult Get()
         {
-            return new JsonResult(await _baseService.FindByCondition(expression));
+            return new JsonResult(_baseService.Get());
         }
 
-        public async Task<IActionResult> Get()
+        [HttpGet]
+        public IActionResult Get(Expression<Func<T, bool>> expression)
         {
-            return new JsonResult(await _baseService.GetAll());
+            return new JsonResult(_baseService.Get(expression));
         }
+        //[HttpGet]
+
+        //public async Task<IActionResult> Get(Expression<Func<T, bool>> expression)
+        //{
+        //    return new JsonResult(await _baseService.FindByCondition(expression));
+        //}
+        //[HttpGet]
+
+        //public async Task<IActionResult> Get()
+        //{
+        //    return new JsonResult(await _baseService.GetAll());
+        //}
 
         // POST: BaseController/Edit/5
 
         // GET: BaseController/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+
+        public IActionResult Delete(int id)
         {
-            return new JsonResult(await _baseService.Delete(id));
+            return new JsonResult( _baseService.Delete(id));
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(T entity)
+        {
+            return new JsonResult(_baseService.Delete(entity));
+        }
+
+        [HttpPost]
+        public IActionResult BulkInsert(IEnumerable<T> entities)
+        {
+            return new JsonResult(_baseService.BulkInsert(entities));
+        }
+
+        [HttpPut]
+        public IActionResult BulkUpdate(IEnumerable<T> entities)
+        {
+            return new JsonResult(_baseService.BulkUpdate(entities));
+        }
+
+        [HttpDelete]
+        public IActionResult BulkDelete(IEnumerable<T> entities)
+        {
+            return new JsonResult(_baseService.BulkDelete(entities));
         }
 
     }

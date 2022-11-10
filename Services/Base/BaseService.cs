@@ -17,66 +17,115 @@ namespace Services.Base
             _baseRepository = baseRepository;
         }
 
-        public async Task<T> Add(T entity)
+        public  T Add(T entity)       
         {
-            this.WhileInserting(entity);
-            var InsertEntity = await _baseRepository.Add(entity);
+             this.WhileInserting(entity);
+            var InsertEntity =  _baseRepository.Add(entity);
             this.OnInserting(InsertEntity);
             return InsertEntity;
         }
 
-        public async Task<T> Delete(int id)
+        public IEnumerable<T> BulkInsert(IEnumerable<T> entities)
         {
+            this.WhileInserting(entities);
+            var InsertEntity = _baseRepository.BulkInsert(entities);
+            this.OnInserting(entities);
+            return InsertEntity;
+        }
 
-           return await  _baseRepository.Delete(id);
+        public IEnumerable<T> BulkUpdate(IEnumerable<T> entities)
+        {
+            this.WhileUpdating(entities);
+            var InsertEntity = _baseRepository.BulkInsert(entities);
+            this.OnUpdating(entities);
+            return InsertEntity;
+        }
+        public IEnumerable<T> BulkDelete(IEnumerable<T> entities)
+        {
+            var InsertEntity = _baseRepository.BulkDelete(entities);
+            return InsertEntity;
+        }
+        public T Delete(int Id)
+        {
+           return  _baseRepository.Remove(Id);
 
         }
-        public async Task<List<T>> FindByCondition(Expression<Func<T, bool>> expression)
+
+        public T Delete(T entity)
         {
-            return await _baseRepository.FindByCondition(expression);
+            return _baseRepository.Remove(entity);
+
+        }
+
+        public  IEnumerable<T> Get(Expression<Func<T, bool>> expression)
+        {
+            return  _baseRepository.Get(expression);
 
         }
 
         public async Task<T> Get(int id)
         {
-            return await _baseRepository.Get(id);
+            return  _baseRepository.Get(id);
         }
 
-        public async Task<List<T>> GetAll()
+        public IEnumerable<T> Get()
         {
-            return await _baseRepository.GetAll();
+            return  _baseRepository.Get();
         }
 
-        public async Task<T> Update(T entity)
+        public T Update(T entity)
         {
-            this.WhileUpdating(entity);
-            var UpdateEntity =  await _baseRepository.Update(entity);
-            this.OnUpdating(UpdateEntity);
+             this.WhileUpdating(entity);
+            var UpdateEntity =   _baseRepository.Update(entity);
+             this.OnUpdating(UpdateEntity);
             return UpdateEntity;
         }
-        public virtual void WhileInserting(T entity)
+        public virtual  void WhileInserting(T entities)
         {         
         }
-        public virtual void OnInserting(T entity)
+        public virtual  void OnInserting(T entities)
         {
         }
-        public virtual void WhileUpdating(T entity)
-        { 
+        public virtual  void WhileUpdating(T entities)
+        {
+
         }
-        public virtual void OnUpdating(T entity)
+        public virtual  void OnUpdating(T entities)
         { 
         }
 
 
+        public virtual void WhileInserting(IEnumerable<T> entities)
+        {
+        }
+        public virtual void OnInserting(IEnumerable<T> entities)
+        {
+        }
+        public virtual void WhileUpdating(IEnumerable<T> entities)
+        {
+
+        }
+        public virtual void OnUpdating(IEnumerable<T> entities)
+        {
+        }
+
+        T IBaseService<T>.Get(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IBaseService<T> where T : class
     {
-        Task<T> Add(T entity);
-        Task<T> Update(T entity);
-        Task<List<T>> GetAll();
-        Task<T> Get(int id);
-        Task<List<T>> FindByCondition(Expression<Func<T, bool>> expression);
-        Task<T> Delete(int id);
+        T Add(T entity);
+        T Update(T entity);
+        IEnumerable<T> Get();
+        T Get(int id);
+        IEnumerable<T> Get(Expression<Func<T, bool>> expression);
+        T Delete(T entity);
+        T Delete(int Id);
+        IEnumerable<T> BulkInsert(IEnumerable<T> entities);
+        IEnumerable<T> BulkUpdate(IEnumerable<T> entities);
+        IEnumerable<T> BulkDelete(IEnumerable<T> entities);
     }
 }

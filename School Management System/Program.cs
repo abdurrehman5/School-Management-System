@@ -7,9 +7,21 @@ using Services.Base;
 
 var builder = WebApplication.CreateBuilder(args);
 
+///var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: MyAllowSpecificOrigins,
+//                      builder =>
+//                      {
+//                          builder.WithOrigins("https://localhost:7098"
+//                                              );
+//                      });
+//});
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
@@ -67,13 +79,21 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Employee API V1");
+    });
 }
+
+
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors(policy => policy.AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .SetIsOriginAllowed(origin => true)
+                            .AllowCredentials());
 app.MapControllers();
 
 app.Run();

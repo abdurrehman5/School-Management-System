@@ -32,7 +32,7 @@ namespace Data.Entities
         [MaxLength(45)]
         public string LastloginIp { get; set; }
 
-        public ICollection<ClassRoom> ClassRoom { get; set; }
+        public ICollection<ClassRoom>? ClassRoom { get; set; }
 
     }
 }
