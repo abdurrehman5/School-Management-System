@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Repository
 {
     public class ExamTypeRepository: BaseRepository<ExamType>,IExamTypeRepository
@@ -16,7 +15,6 @@ namespace Repository
         {
         }
     }
-
     public  interface IExamTypeRepository
     {
     }

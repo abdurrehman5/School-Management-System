@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Services.Base
 {
     public  class BaseService<T> : IBaseService<T> where T : class
@@ -16,15 +15,18 @@ namespace Services.Base
         {
             _baseRepository = baseRepository;
         }
-
-        public  T Add(T entity)       
+        public  async Task<T> Add(T entity)       
         {
-             this.WhileInserting(entity);
+            this.Validate(entity);
+            this.WhileInserting(entity);
             var InsertEntity =  _baseRepository.Add(entity);
             this.OnInserting(InsertEntity);
             return InsertEntity;
         }
-
+        public virtual void Validate(T entity)
+        {
+            
+        }
         public IEnumerable<T> BulkInsert(IEnumerable<T> entities)
         {
             this.WhileInserting(entities);
@@ -32,7 +34,6 @@ namespace Services.Base
             this.OnInserting(entities);
             return InsertEntity;
         }
-
         public IEnumerable<T> BulkUpdate(IEnumerable<T> entities)
         {
             this.WhileUpdating(entities);
@@ -48,31 +49,23 @@ namespace Services.Base
         public T Delete(int Id)
         {
            return  _baseRepository.Remove(Id);
-
         }
-
         public T Delete(T entity)
         {
             return _baseRepository.Remove(entity);
-
         }
-
         public  IEnumerable<T> Get(Expression<Func<T, bool>> expression)
         {
             return  _baseRepository.Get(expression);
-
         }
-
         public async Task<T> Get(int id)
         {
             return  _baseRepository.Get(id);
         }
-
         public IEnumerable<T> Get()
         {
             return  _baseRepository.Get();
         }
-
         public T Update(T entity)
         {
              this.WhileUpdating(entity);
@@ -88,12 +81,10 @@ namespace Services.Base
         }
         public virtual  void WhileUpdating(T entities)
         {
-
         }
         public virtual  void OnUpdating(T entities)
         { 
         }
-
 
         public virtual void WhileInserting(IEnumerable<T> entities)
         {
@@ -103,21 +94,19 @@ namespace Services.Base
         }
         public virtual void WhileUpdating(IEnumerable<T> entities)
         {
-
         }
         public virtual void OnUpdating(IEnumerable<T> entities)
         {
         }
-
         T IBaseService<T>.Get(int id)
         {
             throw new NotImplementedException();
         }
+        
     }
-
     public interface IBaseService<T> where T : class
     {
-        T Add(T entity);
+        Task<T> Add(T entity);
         T Update(T entity);
         IEnumerable<T> Get();
         T Get(int id);

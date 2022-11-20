@@ -4,7 +4,6 @@ using Repository.Base;
 using School_Management_System.Controllers.Base;
 using Services;
 using Services.Base;
-
 namespace School_Management_System.Controllers
 {
     [ApiController]

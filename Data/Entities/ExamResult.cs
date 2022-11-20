@@ -12,10 +12,8 @@ namespace Data.Entities
         public int? ExamId { get; set; }
         public int? StudentId { get; set; }
         public int? CourseId { get; set; }
-
         [MaxLength(45)]
         public string? Marks { get; set; }
-
         public Exam Exam { get; set; }
         public Student Student { get; set; }
         public Course Course { get; set; }

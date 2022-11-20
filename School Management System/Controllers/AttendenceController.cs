@@ -4,15 +4,22 @@ using Repository.Base;
 using School_Management_System.Controllers.Base;
 using Services;
 using Services.Base;
-
 namespace School_Management_System.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class AttendenceController : BaseController<Attendence>
     {
+               
+
+
+
+
+
+
         public AttendenceController(IBaseService<Attendence> storage) : base(storage)
         {
+            
         }
         
     }

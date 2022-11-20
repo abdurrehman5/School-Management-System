@@ -13,10 +13,8 @@ namespace Data.Entities
         public DateTime? Date { get; set; }
         public int? StudentId { get; set; }
         public bool IssStatus { get; set; }
-
         [MaxLength(45)]
         public string? Remarks { get; set; }
         public Student Student { get; set; }
-
     }
 }

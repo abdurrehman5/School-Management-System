@@ -11,12 +11,9 @@ namespace Data.Entities
     {
         [MaxLength(45)]
         public string? Name { get; set; }
-
         public DateTime? StartDate { get; set; }
-
         public int? ExamTypeId { get; set; }
         public ExamType ExmpType { get; set; }
         public ICollection<ExamResult> ExamResult { get; set; }
-
     }
 }

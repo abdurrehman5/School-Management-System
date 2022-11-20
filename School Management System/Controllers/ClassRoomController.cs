@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using School_Management_System.Controllers.Base;
 using Services;
 using Services.Base;
-
 namespace School_Management_System.Controllers
 {
     [ApiController]
@@ -13,6 +12,5 @@ namespace School_Management_System.Controllers
         public ClassRoomController(IBaseService<ClassRoom> storage) : base(storage)
         {
         }
-
     }
 }

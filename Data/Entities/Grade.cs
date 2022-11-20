@@ -13,9 +13,7 @@ namespace Data.Entities
         public string? Name { get; set; }
         [MaxLength(45)]
         public string? Description { get; set; }
-
         public ICollection<Course> Course { get; set; }
         public ICollection<ClassRoom> ClassRoom { get; set; }
-
     }
 }

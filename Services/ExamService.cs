@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Services
 {
     public class ExamService: BaseService<Exam>,IExamService
@@ -17,7 +16,6 @@ namespace Services
         {
         }
     }
-
     public  interface IExamService
     {
     }

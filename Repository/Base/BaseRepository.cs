@@ -8,10 +8,8 @@ using System.Linq.Expressions;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Repository.Base
 {
-
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         //protected StudentContext context { get; set; }
@@ -20,7 +18,6 @@ namespace Repository.Base
         {
             _context = repositoryContext;
         }
-
         public T Add(T entity)
         {
             _context.Set<T>().Add(entity);
@@ -33,7 +30,6 @@ namespace Repository.Base
             SaveChanges();
             return entities;
         }
-
         public IEnumerable<T> BulkUpdate(IEnumerable<T> entities)
         {
             _context.Set<T>().UpdateRange(entities);
@@ -48,6 +44,19 @@ namespace Repository.Base
         {
             return _context.Set<T>().AsNoTracking();
         }
+        public async Task<IReadOnlyList<T>> GetAll(
+           Expression<Func<T, bool>> filter,
+           params Expression<Func<T, object>>[] includes)
+        {
+            return await GetAllIncluding(includes).Where(filter).ToListAsync();
+        }
+        private IQueryable<T> GetAllIncluding
+            (params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> queryable = _context.Set<T>().AsNoTracking();
+            return includeProperties.Aggregate
+                (queryable, (current, includeProperty) => current.Include(includeProperty));
+        }
         public T Get(int id)
         {
             return _context.Set<T>().Find(id);
@@ -59,7 +68,6 @@ namespace Repository.Base
             {
                 return entity;
             }
-
             //    context.Set<T>().Remove(entity);
             _context.Set<T>().Remove(entity);
             SaveChanges();
@@ -71,14 +79,12 @@ namespace Repository.Base
             SaveChanges();
             return entity;
         }
-
         public IEnumerable<T> BulkDelete(IEnumerable<T> entities)
         {
             _context.Set<T>().RemoveRange(entities);
             SaveChanges();
             return entities;
         }
-
         public T Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
@@ -91,7 +97,6 @@ namespace Repository.Base
         //    await context.SaveChangesAsync();
         //    return entity;
         //}
-
         //public  async Task<T> Delete(int id)
         //{
         //    var entity = await context.Set<T>().FindAsync(id);
@@ -99,43 +104,34 @@ namespace Repository.Base
         //    {
         //        return entity;
         //    }
-
         //    context.Set<T>().Remove(entity);
         //    await context.SaveChangesAsync();
-
         //    return entity;
         //}
         //public  async Task<List<T>> FindByCondition(Expression<Func<T, bool>> expression)
         //{
         //    return await context.Set<T>().Where(expression).AsNoTracking().ToListAsync();
-
         //}
-
         //public  async Task<T> Get(int id)
         //{
         //    return await context.Set<T>().FindAsync(id);
         //}
-
         //public  async Task<List<T>> GetAll()
         //{
         //    return await context.Set<T>().ToListAsync();
         //}
-
         //public  async Task<T> Update(T entity)
         //{
         //    context.Entry(entity).State = EntityState.Modified;
         //    await context.SaveChangesAsync();
         //    return entity;
         //}
-
         public int SaveChanges()
         {
             return _context.SaveChanges();
         }
 
-
     }
-
     public interface IBaseRepository<T> where T : class
     {
         //Task<List<T>> FindByCondition(Expression<Func<T, bool>> expression);

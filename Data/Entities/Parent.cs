@@ -13,14 +13,11 @@ namespace Data.Entities
         public string? Email { get; set; }
         [MaxLength(45)]
         public string? Password { get; set; }
-
         [MaxLength(45)]
         public string? FirstName { get; set; }
         [MaxLength(45)]
         public string? LastName { get; set; }
-
         public DateTime? Dob { get; set; }
-
 
         [MaxLength(15)]
         public string? Phone { get; set; }
@@ -30,8 +27,6 @@ namespace Data.Entities
         public DateTime? LastloginDate { get; set; }
         [MaxLength(45)]
         public string LastloginIp { get; set; }
-
         public ICollection<Student> Student { get; set; }
-
     }
 }
